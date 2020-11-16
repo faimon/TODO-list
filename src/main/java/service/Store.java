@@ -10,6 +10,4 @@ public interface Store {
     Collection<Task> findNotDoneTask();
 
     void addTask(Task task);
-
-    void deleteTask(Task task);
 }
