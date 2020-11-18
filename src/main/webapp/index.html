@@ -107,16 +107,30 @@
 </head>
 <body>
 <div align="center" class="container">
+
+</div>
+<div align="center" class="container">
     <h1 class="display-6">Список задач</h1>
+</div>
+<div style="width:500px;float:right;">
+    <h5 class="text-center">Авторизация пользователя</h5>
+    <form align="center" class="form-inline">
+        <input type="text" class="form-control mr-sm-2" id="login" placeholder="Логин">
+        <input type="text" class="form-control" id="password" placeholder="Пароль">
+        <button type="submit" class="btn btn-primary ml-2">Войти</button>
+        <a class="nav-link btn-link" href="/todolist/reg.do">Регистрация</a>
+    </form>
 </div>
 <div class="container pt-3">
     <div class="form-group">
-        <label for="description">Добавить новую задачу:</label>
+        <h5><label for="description">Добавить новую задачу:</label></h5>
         <div class="col-lg-9">
             <textarea rows="2" cols="40" name="text" id="description" placeholder=" Описание задачи"></textarea>
         </div>
         <div class="col-lg-3 pt-1">
-            <button type="submit" class="btn btn-primary" onclick="return addTask()">Добавить задачу</button>
+            <button type="submit" class="btn btn-primary bg-success text-white" disabled onclick="return addTask()">Добавить
+                задачу
+            </button>
         </div>
         <div style="display:none" id="success" class="alert alert-success pt-3" role="alert">
             Задача была успешно добавлена.
