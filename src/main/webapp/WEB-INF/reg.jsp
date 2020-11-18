@@ -21,7 +21,7 @@
             crossorigin="anonymous"></script>
     <script>
         function validate() {
-            if ($('#login').val() === '' || $('#email').val() === '' || $('#password').val() === '') {
+            if ($('#login').val() === '' || $('#password').val() === '') {
                 alert('Заполните все поля')
                 return false;
             }

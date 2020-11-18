@@ -1,7 +1,8 @@
 package controller;
 
 import com.google.gson.Gson;
-import persistance.Task;
+import persistence.Task;
+import persistence.User;
 import service.PsqlStore;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,8 @@ public class TaskServlet extends HttpServlet {
         resp.setContentType("json");
         resp.setContentType("UTF-8");
         PrintWriter pw = resp.getWriter();
-        pw.print(new Gson().toJson(PsqlStore.instOf().findAllTask()));
+        User user = (User) req.getSession().getAttribute("user");
+        pw.print(new Gson().toJson(PsqlStore.instOf().findAllTask(user)));
         pw.flush();
         pw.close();
     }
@@ -27,7 +29,7 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String desc = req.getParameter("description");
-        PsqlStore.instOf().addTask(new Task(1, desc,
-                new Timestamp(System.currentTimeMillis()), false));
+        User user = (User) req.getSession().getAttribute("user");
+        PsqlStore.instOf().addTask(new Task(desc, new Timestamp(System.currentTimeMillis()), false), user);
     }
 }

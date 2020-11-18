@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -14,8 +14,11 @@ public class Task {
     private Timestamp created;
     private boolean done;
 
-    public Task(int id, String description, Timestamp created, boolean done) {
-        this.id = id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Task(String description, Timestamp created, boolean done) {
         this.description = description;
         this.created = created;
         this.done = done;
@@ -57,6 +60,14 @@ public class Task {
         this.done = done;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,13 +75,14 @@ public class Task {
         Task task = (Task) o;
         return id == task.id &&
                 done == task.done &&
-                description.equals(task.description) &&
-                created.equals(task.created);
+                Objects.equals(description, task.description) &&
+                Objects.equals(created, task.created) &&
+                Objects.equals(user, task.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, created, done);
+        return Objects.hash(id, description, created, done, user);
     }
 
     @Override
@@ -80,6 +92,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", created=" + created +
                 ", done=" + done +
+                ", user=" + user +
                 '}';
     }
 }

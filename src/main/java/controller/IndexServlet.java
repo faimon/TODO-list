@@ -1,6 +1,8 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import persistence.User;
 import service.PsqlStore;
 
 import javax.servlet.ServletException;
@@ -16,7 +18,8 @@ public class IndexServlet extends HttpServlet {
         resp.setContentType("UTF-8");
         resp.setContentType("json");
         PrintWriter pw = resp.getWriter();
-        pw.print(new Gson().toJson(PsqlStore.instOf().findNotDoneTask()));
+        User user = (User) req.getSession().getAttribute("user");
+        pw.print(new Gson().toJson(PsqlStore.instOf().findNotDoneTask(user)));
         pw.flush();
         pw.close();
     }

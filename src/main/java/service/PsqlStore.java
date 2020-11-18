@@ -6,7 +6,8 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import persistance.Task;
+import persistence.Task;
+import persistence.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,18 +43,54 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Collection<Task> findAllTask() {
-        return tx(session -> session.createQuery("from Task").list());
+    public Collection<Task> findAllTask(User user) {
+        return tx(session -> session.createQuery("from Task WHERE user_id = :user_id")
+                .setParameter("user_id", user.getId())
+                .list());
     }
 
     @Override
-    public Collection<Task> findNotDoneTask() {
-        return tx(session -> session.createQuery("from Task where done = :done")
-                .setParameter("done", false).list());
+    public Collection<Task> findNotDoneTask(User user) {
+        return tx(session -> session.createQuery("FROM Task WHERE done = :done AND user_id = :user_id")
+                .setParameter("done", false)
+                .setParameter("user_id", user.getId())
+                .list());
     }
 
     @Override
-    public void addTask(Task task) {
-        tx(session -> session.save(task));
+    public void addTask(Task task, User user) {
+        tx(session -> {
+            task.setUser(user);
+            return session.save(task);
+        });
+    }
+
+    @Override
+    public void updateStatusTask(int id) {
+        tx(session -> {
+            Task task = session.get(Task.class, id);
+            task.setDone(true);
+            return task;
+        });
+    }
+
+    @Override
+    public void saveUser(User user) {
+        tx(session -> session.save(user));
+    }
+
+    @Override
+    public User findUser(User user) {
+        return tx(session -> {
+            User resultUser = null;
+            List<User> list = session.createQuery("FROM User WHERE login = :login AND password = :password")
+                    .setParameter("login", user.getLogin())
+                    .setParameter("password", user.getPassword())
+                    .list();
+            if (list.size() != 0) {
+                resultUser = list.get(0);
+            }
+            return resultUser;
+        });
     }
 }
