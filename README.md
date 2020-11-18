@@ -15,7 +15,7 @@
 
 **Frontend**: HTML, CSS, Javascript, Jquery.
 
-Главная страница - авторизованный пользователь видит невыполненные дела:
+Главная страница - авторизованный пользователь видит свои невыполненные дела:
 
 ![GitHub Logo](https://github.com/faimon/todo_list/blob/master/screenshots/main%20page.png?raw=true)
 
