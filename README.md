@@ -1,4 +1,5 @@
 # Проект "TODO list"
+[![Build Status](https://travis-ci.org/faimon/todo_list.svg?branch=master)](https://travis-ci.org/faimon/todo_list)
 
 ### Web приложение для учета своих дел.
 **Функциональность:**
